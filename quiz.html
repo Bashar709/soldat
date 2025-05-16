@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Soldat Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00ff88;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .question {
+      margin: 1rem 0;
+    }
+    button {
+      background-color: #00ff88;
+      color: #0a0a0a;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .hidden {
+      display: none;
+    }
+    .result {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    a.return-link {
+      display: block;
+      margin-top: 2rem;
+      color: #00ff88;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    /* Kort med animasjon */
+    .card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background-color: #111;
+      color: #00ff88;
+      border: 2px solid #00ff88;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ff88;
+      font-size: 1.3rem;
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+    .card.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  </style>
+</head>
+<body>
+  <h1>🪖 Soldat Quiz</h1>
+  <div id="quiz">
+    <div class="question">
+      <p>1. kor myje veier ein fullpakka feltsekk ca.?</p>
+      <button onclick="svar(0, 'a')">a) 8 kg</button>
+      <button onclick="svar(0, 'b')">b) 12 kg</button>
+      <button onclick="svar(0, 'c')">c) 20-25 kg</button>
+    </div>
+    <div class="question hidden">
+      <p>2. hva heiter dei klassiske feltstøvlene i Forsvaret?</p>
+      <button onclick="svar(1, 'a')">a) M77</button>
+      <button onclick="svar(1, 'b')">b) M95</button>
+      <button onclick="svar(1, 'c')">c) FJ Combat</button>
+    </div>
+    <div class="question hidden">
+      <p>3. HK416 er eit ... våpen.</p>
+      <button onclick="svar(2, 'a')">a) Amerikansk</button>
+      <button onclick="svar(2, 'b')">b) Tysk</button>
+      <button onclick="svar(2, 'c')">c) Norsk</button>
+    </div>
+  </div>
+  <div class="result hidden" id="resultat"></div>
+  <a href="index.html" class="return-link hidden" id="tilbake">⬅️ Tilbake til oppdraget</a>
+
+  <!-- Kort som vises etter perfekt resultat -->
+  <div id="kort" class="card">
+    🎖️ Lykke til med opptaket champ, du he d
+  </div>
+
+  <!-- Lyd -->
+  <audio id="lyd" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+  <script>
+    const riktigeSvar = ['c', 'a', 'b'];
+    let brukerSvar = [];
+
+    function svar(spmIndex, valgt) {
+      brukerSvar[spmIndex] = valgt;
+      const spørsmål = document.querySelectorAll(".question");
+      spørsmål[spmIndex].classList.add("hidden");
+      if (spmIndex + 1 < spørsmål.length) {
+        spørsmål[spmIndex + 1].classList.remove("hidden");
+      } else {
+        visResultat();
+      }
+    }
+
+    function visResultat() {
+      let riktig = 0;
+      for (let i = 0; i < riktigeSvar.length; i++) {
+        if (brukerSvar[i] === riktigeSvar[i]) riktig++;
+      }
+
+      const lyd = document.getElementById("lyd");
+      lyd.play();
+
+      const resultat = document.getElementById("resultat");
+      resultat.classList.remove("hidden");
+
+      if (riktig === riktigeSvar.length) {
+        resultat.innerHTML = "✅ Mannen kan ting";
+
+        const kort = document.getElementById("kort");
+        setTimeout(() => {
+          kort.classList.add("show");
+        }, 1000);
+      } else {
+        resultat.innerHTML = `Du fikk ${riktig} av ${riktigeSvar.length} riktig. Prøv igjen!`;
+      }
+
+      document.getElementById("tilbake").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>

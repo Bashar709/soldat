@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <title>Oppdrag: Krigsskole</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0; padding: 2rem;
+      background-color: #0a0a0a;
+      color: #00ff88;
+      font-family: 'Courier New', monospace;
+      display: flex; flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 6px #000;
+    }
+    p {
+      font-size: 1.3rem;
+      max-width: 600px;
+    }
+    .countdown {
+      font-size: 2rem;
+      margin: 2rem 0;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px #000;
+    }
+    .knapp {
+      background-color: #004d00;
+      color: #00ff88;
+      border: 2px solid #00ff88;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: background-color 0.3s ease;
+    }
+    .knapp:hover {
+      background-color: #007700;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    img.morsomt-bilde {
+      margin-top: 2rem;
+      max-width: 100%;
+      max-height: 250px;
+      border: 4px solid #00ff88;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #00ff88;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🪖 OPPDRAG: KRIGSSKOLE</h1>
+
+  <p>Rekrutt Sondre, din innsats har ikkje gått ubemerkea. Nå venter neste nivå.<br>
+  Du er valgt fordi du har det som trengs. Vilje, Disiplin og Fokus.</p>
+  <p>det er ikkje so lenge til, du gler vel deg?</p>
+
+  <div class="countdown" id="countdown">⏳ Laster inn oppdrag...</div>
+
+  <img src="morsomt_bilde.jpg" alt="Morsomt bilde av Sondre" class="morsomt-bilde" />
+
+  <button class="knapp" onclick="gåTilQuiz()">Åpne neste oppdrag</button>
+
+  <div class="footer">– Generert av Rekrutt Bashar aka Nordmann 💻</div>
+
+  <script>
+    const opptaksdato = new Date("2025-06-27T00:00:00").getTime();
+
+    function oppdaterNedtelling() {
+      const nå = new Date().getTime();
+      const diff = opptaksdato - nå;
+
+      const dager = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const timer = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutter = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const sekunder = Math.floor((diff % (1000 * 60)) / 1000);
+
+      if (diff > 0) {
+        document.getElementById("countdown").textContent =
+          `⏳ ${dager} dager ${timer} t ${minutter} m ${sekunder} s igjen`;
+      } else {
+        document.getElementById("countdown").textContent = "✅ Oppdrag starter NÅ!";
+      }
+    }
+
+    setInterval(oppdaterNedtelling, 1000);
+    oppdaterNedtelling();
+
+    function gåTilQuiz() {
+      window.location.href = "quiz.html";
+      // Hvis du vil åpne i ny fane: 
+      // window.open("quiz.html", "_blank");
+    }
+  </script>
+
+</body>
+</html>
